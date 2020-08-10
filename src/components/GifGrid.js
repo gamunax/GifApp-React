@@ -1,32 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { GifGridItem } from './GifGridItem';
+import { getGifs } from '../helpers/getGifs';
 
 export const GifGrid = ({ category }) => {
 
   const [count, setCount] = useState(0);
-  const [images, setimages] = useState([]);
+  const [images, setImages] = useState([]);
 
   useEffect( () => {
-    getGifs();
-  }, [])
+    console.log('hgola');
+    getGifs(category).then(setImages)
 
-  const getGifs = async () => {
-
-    const url = 'https://api.giphy.com/v1/gifs/search?q=rick and morty&limit=10&api_key=b5VC478eD1oiRwFyWTVs62FO0ZPHwdlJ';
-    const resp = await fetch(url);
-    const { data } = await resp.json();
-
-    const gifs = data.map(img => {
-      return {
-        id: img.id,
-        title: img.title,
-        url: img.images?.downsized_medium.url
-      }
-    })
-
-    console.log(gifs);
-    setimages(gifs);
-  }
+  }, [ category ])
 
   return (
     <>
